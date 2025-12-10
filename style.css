@@ -1,0 +1,207 @@
+/* Fichier : style.css */
+
+/* Variables de la Charte Graphique */
+:root {
+    --color-main-bg: #050511;
+    --color-secondary-bg: #0f0e4a;
+    --color-accent-rose: #fc10ca;
+    --color-accent-bleu: #09c7df;
+    --color-text: #ffffff;
+    --color-text-light: #f6f2f9;
+    --color-warning: #ffbe0b;
+    --color-success: #00ff9d;
+    --color-error: #ff0055;
+    --color-dark-border: #303070; 
+    --color-darker-bg: #1a1a5b; 
+}
+
+/* Styles Généraux pour le corps */
+body {
+    background-color: var(--color-main-bg);
+    color: var(--color-text);
+    font-family: sans-serif;
+    margin: 0;
+}
+
+/* --- Nouvelle Structure à 3 Colonnes (Logs Interface) --- */
+
+.logs-interface-3-cols {
+    display: flex;
+    width: 100%; 
+    min-height: 500px;
+    border-top: 2px solid var(--color-accent-rose);
+    border-bottom: 2px solid var(--color-accent-rose);
+}
+
+.interface-column {
+    padding: 15px;
+    background-color: var(--color-secondary-bg); /* Fond des colonnes */
+    border-right: 1px solid var(--color-dark-border); /* Séparateur des colonnes */
+}
+
+.interface-column:last-child {
+    border-right: none;
+}
+
+/* Colonne 1: Barre Latérale (LOGS) */
+#logs-sidebar {
+    flex: 0 0 250px; /* LARGEUR FIXE DEMANDÉE : 250PX */
+    width: 250px;
+    background-color: var(--color-main-bg); 
+    color: var(--color-text-light);
+    border-right: 2px solid var(--color-accent-rose); 
+}
+
+#logs-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+#logs-sidebar li a {
+    display: block;
+    padding: 8px 10px;
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    border-radius: 4px;
+}
+
+#logs-sidebar li a:hover {
+    background-color: rgba(9, 199, 223, 0.1);
+    color: var(--color-accent-bleu);
+}
+
+#logs-sidebar li a.active-link {
+    background-color: rgba(9, 199, 223, 0.2);
+    color: var(--color-accent-bleu);
+    font-weight: bold;
+}
+
+/* Colonne 2: Liste des Logs */
+#logs-list-area {
+    flex: 0 0 300px; 
+    overflow-y: auto;
+}
+
+/* Colonne 3: Contenu Chiffré */
+#log-content-area {
+    flex: 1; 
+}
+
+/* Styles pour le Tableau des Logs (Colonne 2) */
+#logs-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--color-text-light);
+}
+
+#logs-table th {
+    background-color: var(--color-darker-bg); 
+    color: var(--color-accent-bleu);
+    padding: 10px 8px;
+    text-align: left;
+    border-bottom: 2px solid var(--color-accent-bleu);
+}
+
+#logs-table td {
+    border-bottom: 1px solid var(--color-dark-border); 
+    padding: 8px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#logs-table tbody tr:hover, #logs-table tbody tr.selected {
+    background-color: rgba(252, 16, 202, 0.15); /* Accent rose semi-transparent */
+    color: var(--color-accent-rose);
+}
+
+/* Affichage du Contenu Chiffré (Colonne 3) */
+#encrypted-content-display {
+    background-color: var(--color-main-bg); 
+    color: var(--color-accent-rose); 
+    padding: 15px;
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
+    min-height: 150px;
+    border: 1px dashed var(--color-accent-rose);
+    overflow-x: auto;
+}
+
+.hint {
+    color: var(--color-warning); 
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid var(--color-warning);
+    background-color: rgba(255, 190, 11, 0.1);
+    border-radius: 4px;
+}
+
+/* --- Styles pour les Nouveaux Boutons de Décryptage --- */
+.decrypt-button {
+    background-color: var(--color-secondary-bg); 
+    color: var(--color-text-light);
+    border: 1px solid var(--color-accent-bleu);
+    padding: 8px 15px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.decrypt-button:hover {
+    background-color: var(--color-accent-bleu);
+    color: var(--color-main-bg);
+    border-color: var(--color-accent-bleu);
+}
+
+/* --- Section de Validation du Flag (Épreuve 7) --- */
+#flag-validation-challenge {
+    display: none; /* MASQUÉ PAR DÉFAUT, affiché par JS */
+    background-color: var(--color-secondary-bg); 
+    padding: 20px;
+}
+
+#validation-form-container {
+    padding: 20px;
+    background-color: var(--color-main-bg); 
+    border-radius: 8px;
+    max-width: 600px;
+    margin-top: 15px;
+}
+
+#flag-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: var(--color-dark-border); 
+    color: var(--color-accent-bleu);
+    border: 2px solid var(--color-accent-rose);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#validate-flag-btn {
+    background-color: var(--color-accent-rose);
+    color: var(--color-main-bg); 
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+#validate-flag-btn:hover {
+    background-color: #ff33c8;
+}
+
+#validation-message.success {
+    color: var(--color-success);
+}
+
+#validation-message.error {
+    color: var(--color-error);
+}
