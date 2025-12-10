@@ -2,10 +2,10 @@
 
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 4000;
 
 // --- Configuration du Middleware ---
-// 1. Sert les fichiers statiques (index.html, style.css)
+// 1. Sert les fichiers statiques (index.html, style.css, script.js)
 // __dirname est le chemin absolu du dossier où se trouve server.js
 app.use(express.static(__dirname)); 
 // 2. Permet de lire les corps de requêtes JSON (non utilisé ici, mais bonne pratique)
@@ -21,8 +21,6 @@ function rot13Encrypt(text) {
     });
 }
 
-// NOTE : La fonction caesarEncrypt est retirée, comme demandé.
-
 // 2. Chiffrement par Inversion
 function reverseEncrypt(text) {
     return text.split('').reverse().join('');
@@ -30,7 +28,6 @@ function reverseEncrypt(text) {
 
 
 // --- Données Source (Logs en clair) ---
-// Les anciens logs 'CAESAR_5' sont remplacés par 'ROT13'
 const logsEnClair = [
     {
         "id": 1, 
@@ -44,7 +41,7 @@ const logsEnClair = [
         "timestamp": "2025-12-06T10:45:30Z",
         "type": "ACCÈS",
         "content": "Connexion de l'utilisateur 'admin_sec' depuis une adresse suspecte. Clé non valide.",
-        "method": "ROT13" // MODIFIÉ (ancien CAESAR_5)
+        "method": "ROT13" 
     },
     {
         "id": 3,
@@ -73,7 +70,7 @@ const logsEnClair = [
         "timestamp": "2025-12-06T11:05:45Z",
         "type": "SÉCURITÉ",
         "content": "Alerte : Signature de virus inconnue trouvée dans le répertoire temporaire de l'utilisateur.",
-        "method": "ROT13" // MODIFIÉ (ancien CAESAR_5)
+        "method": "ROT13" 
     },
     {
         "id": 7,
@@ -102,12 +99,11 @@ app.get('/api/logs', (req, res) => {
             case 'ROT13':
                 encryptedContent = rot13Encrypt(log.content);
                 break;
-            // NOTE : Le case 'CAESAR_5' a été retiré.
             case 'INVERSION':
                 encryptedContent = reverseEncrypt(log.content);
                 break;
             default:
-                encryptedContent = log.content; // Si la méthode n'est pas reconnue
+                encryptedContent = log.content; 
         }
 
         return {
@@ -118,7 +114,6 @@ app.get('/api/logs', (req, res) => {
         };
     });
 
-    // Envoi du JSON (Node.js gère l'en-tête Content-Type)
     res.json(logsCryptes);
 });
 
