@@ -2,7 +2,7 @@
 
 /* Variables de la Charte Graphique */
 :root {
-    --color-main-bg: #050511;
+    --color-main-bg: #09091f; /* NOUVEAU FOND SOMBRE CYBERPUNK (bleu nuit) */
     --color-secondary-bg: #0f0e4a;
     --color-accent-rose: #fc10ca;
     --color-accent-bleu: #09c7df;
@@ -21,6 +21,70 @@ body {
     color: var(--color-text);
     font-family: sans-serif;
     margin: 0;
+    overflow: hidden; /* Empêche les barres de défilement dues à l'animation */
+    position: relative; /* Nécessaire pour positionner l'animation en arrière-plan */
+    min-height: 100vh;
+}
+
+
+/* ---------------------------------------------------- */
+/* --- 1. Animation de fond "Matrix/Hacker" (Nouveau) --- */
+/* ---------------------------------------------------- */
+
+#matrix-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1; /* Place l'animation derrière tout le contenu */
+}
+
+/* Stylisation des chiffres */
+.matrix-column {
+    position: absolute;
+    width: 15px; /* Largeur de chaque colonne de chiffres */
+    text-align: center;
+    top: -100px; /* Commence hors de l'écran */
+    color: var(--color-accent-rose); /* Couleur rose vif #fc10ca */
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 1.1em;
+    text-shadow: 0 0 4px var(--color-accent-rose);
+    opacity: 0.5; /* Légèrement transparent pour un effet subtil */
+    user-select: none;
+    pointer-events: none;
+    animation: matrix-fall 10s linear infinite; /* Animation de chute */
+}
+
+/* Définition de l'animation de chute */
+@keyframes matrix-fall {
+    0% { transform: translateY(-100%); opacity: 0.5; }
+    10% { opacity: 1; } /* Luminosité max au début de la chute */
+    100% { transform: translateY(100vh); opacity: 0.1; }
+}
+
+
+/* ---------------------------------------------------- */
+/* --- 2. Panneau Central (Effet Néon) (Nouveau) --- */
+/* ---------------------------------------------------- */
+
+/* Ce conteneur doit envelopper .logs-interface-3-cols dans le HTML */
+#main-content-panel {
+    position: relative;
+    max-width: 1200px;
+    margin: 50px auto; /* Centre le panneau */
+    z-index: 10; 
+    
+    /* Effet Néon */
+    border: 3px solid var(--color-accent-rose); /* Bordure principale */
+    box-shadow: 
+        0 0 10px var(--color-accent-rose), /* Léger halo */
+        0 0 20px var(--color-accent-rose) inset, /* Effet de lumière interne */
+        inset 0 0 15px 5px rgba(252, 16, 202, 0.4); /* Lumière interne diffuse */
+    
+    border-radius: 6px; 
+    background-color: var(--color-secondary-bg); /* Ajout d'un fond pour le contraste */
 }
 
 /* --- Nouvelle Structure à 3 Colonnes (Logs Interface) --- */
@@ -29,13 +93,15 @@ body {
     display: flex;
     width: 100%; 
     min-height: 500px;
-    border-top: 2px solid var(--color-accent-rose);
-    border-bottom: 2px solid var(--color-accent-rose);
+    /* Suppression des anciennes bordures pour les appliquer sur #main-content-panel */
+    border: none; 
+    border-radius: 4px; 
+    overflow: hidden; /* Important pour que l'intérieur ne dépasse pas le néon */
 }
 
 .interface-column {
     padding: 15px;
-    background-color: var(--color-secondary-bg); /* Fond des colonnes */
+    background-color: transparent; /* Utilise le fond de #main-content-panel */
     border-right: 1px solid var(--color-dark-border); /* Séparateur des colonnes */
 }
 
@@ -45,11 +111,12 @@ body {
 
 /* Colonne 1: Barre Latérale (LOGS) */
 #logs-sidebar {
-    flex: 0 0 250px; /* LARGEUR FIXE DEMANDÉE : 250PX */
+    flex: 0 0 250px; 
     width: 250px;
-    background-color: var(--color-main-bg); 
+    background-color: var(--color-main-bg); /* Reste le plus sombre */
     color: var(--color-text-light);
     border-right: 2px solid var(--color-accent-rose); 
+    box-shadow: 2px 0 5px rgba(252, 16, 202, 0.5); /* Légère ombre rose */
 }
 
 #logs-sidebar ul {
@@ -70,12 +137,15 @@ body {
 #logs-sidebar li a:hover {
     background-color: rgba(9, 199, 223, 0.1);
     color: var(--color-accent-bleu);
+    text-shadow: 0 0 2px var(--color-accent-bleu);
 }
 
 #logs-sidebar li a.active-link {
     background-color: rgba(9, 199, 223, 0.2);
     color: var(--color-accent-bleu);
     font-weight: bold;
+    border-left: 3px solid var(--color-accent-bleu);
+    text-shadow: 0 0 2px var(--color-accent-bleu);
 }
 
 /* Colonne 2: Liste des Logs */
@@ -102,6 +172,7 @@ body {
     padding: 10px 8px;
     text-align: left;
     border-bottom: 2px solid var(--color-accent-bleu);
+    text-shadow: 0 0 3pmx var(--color-accent-bleu);
 }
 
 #logs-table td {
@@ -115,6 +186,7 @@ body {
 #logs-table tbody tr:hover, #logs-table tbody tr.selected {
     background-color: rgba(252, 16, 202, 0.15); /* Accent rose semi-transparent */
     color: var(--color-accent-rose);
+    text-shadow: 0 0 1px var(--color-accent-rose);
 }
 
 /* Affichage du Contenu Chiffré (Colonne 3) */
@@ -127,6 +199,7 @@ body {
     min-height: 150px;
     border: 1px dashed var(--color-accent-rose);
     overflow-x: auto;
+    box-shadow: 0 0 5px rgba(252, 16, 202, 0.4);
 }
 
 .hint {
@@ -136,6 +209,7 @@ body {
     border: 1px solid var(--color-warning);
     background-color: rgba(255, 190, 11, 0.1);
     border-radius: 4px;
+    box-shadow: 0 0 3px var(--color-warning);
 }
 
 /* --- Styles pour les Nouveaux Boutons de Décryptage --- */
@@ -149,17 +223,20 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s;
+    text-shadow: 0 0 2px var(--color-accent-bleu);
 }
 
 .decrypt-button:hover {
     background-color: var(--color-accent-bleu);
     color: var(--color-main-bg);
     border-color: var(--color-accent-bleu);
+    box-shadow: 0 0 5px var(--color-accent-bleu);
+    text-shadow: none;
 }
 
 /* --- Section de Validation du Flag (Épreuve 7) --- */
 #flag-validation-challenge {
-    display: none; /* MASQUÉ PAR DÉFAUT, affiché par JS */
+    display: none; 
     background-color: var(--color-secondary-bg); 
     padding: 20px;
 }
@@ -170,6 +247,7 @@ body {
     border-radius: 8px;
     max-width: 600px;
     margin-top: 15px;
+    border: 1px solid var(--color-dark-border);
 }
 
 #flag-input {
@@ -181,6 +259,8 @@ body {
     border: 2px solid var(--color-accent-rose);
     border-radius: 4px;
     box-sizing: border-box;
+    box-shadow: 0 0 5px rgba(252, 16, 202, 0.4);
+    font-family: 'Consolas', 'Courier New', monospace;
 }
 
 #validate-flag-btn {
@@ -191,17 +271,21 @@ body {
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+    text-shadow: 0 0 5px var(--color-main-bg);
 }
 
 #validate-flag-btn:hover {
     background-color: #ff33c8;
+    box-shadow: 0 0 8px var(--color-accent-rose);
 }
 
 #validation-message.success {
     color: var(--color-success);
+    text-shadow: 0 0 3px var(--color-success);
 }
 
 #validation-message.error {
     color: var(--color-error);
+    text-shadow: 0 0 3px var(--color-error);
 }
